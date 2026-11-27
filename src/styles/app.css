@@ -363,6 +363,20 @@ a.btn--ghost:hover {
   gap: 16px;
 }
 
+.auth-topbar {
+  width: 100%;
+  max-width: 1040px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.auth-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .auth-card {
   width: 100%;
   max-width: 1040px;

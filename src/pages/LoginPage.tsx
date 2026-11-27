@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Eye, EyeOff, KeyRound, Mail } from 'lucide-react'
+import { ArrowLeft, Eye, EyeOff, KeyRound, Mail } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { SocialButtons } from '../components/SocialButtons'
 
@@ -57,6 +57,12 @@ export function LoginPage() {
 
   return (
     <main className="auth-page">
+      <div className="auth-topbar">
+        <Link to="/" className="btn btn--secondary btn--sm auth-back-btn">
+          <ArrowLeft size={16} aria-hidden="true" />
+          <span>Voltar ao início</span>
+        </Link>
+      </div>
       <div className="auth-card auth-card--split">
         <section className="auth-column" aria-labelledby="login-heading">
           <div className="auth-logo-mobile auth-logo-mobile--hide-desktop">
@@ -207,15 +213,7 @@ export function LoginPage() {
         </aside>
       </div>
 
-      <div className="mode-pill">
-        <span
-          className={`mode-pill__dot${isLiveSupabase ? '' : ' mode-pill__dot--demo'}`}
-          aria-hidden="true"
-        />
-        {isLiveSupabase
-          ? 'Conectado ao banco Supabase'
-          : 'Modo demonstração local · Admin de teste: admin@nimbus.com / Admin@123'}
-      </div>
+
     </main>
   )
 }

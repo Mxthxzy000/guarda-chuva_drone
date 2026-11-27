@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Eye, EyeOff, KeyRound, Mail, MapPin, User } from 'lucide-react'
+import { ArrowLeft, Eye, EyeOff, KeyRound, Mail, MapPin, User } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { SocialButtons } from '../components/SocialButtons'
 
@@ -76,10 +76,18 @@ export function RegisterPage() {
 
   return (
     <main className="auth-page">
+      <div className="auth-topbar">
+        <Link to="/" className="btn btn--secondary btn--sm auth-back-btn">
+          <ArrowLeft size={16} aria-hidden="true" />
+          <span>Voltar ao início</span>
+        </Link>
+      </div>
       <div className="auth-card auth-card--split">
         <section className="auth-column" aria-labelledby="register-heading">
           <div className="auth-logo-mobile">
-            <img src="/brand/logo-texto.png" alt="Nimbus Acessórios Urbanos" />
+            <Link to="/" aria-label="Voltar para a página inicial Aeropia">
+              <img src="/brand/logo-texto.png" alt="Nimbus Acessórios Urbanos" />
+            </Link>
           </div>
 
           <h1 id="register-heading" className="auth-title">
@@ -287,15 +295,6 @@ export function RegisterPage() {
         </aside>
       </div>
 
-      <div className="mode-pill">
-        <span
-          className={`mode-pill__dot${isLiveSupabase ? '' : ' mode-pill__dot--demo'}`}
-          aria-hidden="true"
-        />
-        {isLiveSupabase
-          ? 'Senhas protegidas com hash no Supabase Auth'
-          : 'Modo demonstração local · Senhas gravadas em hash SHA-256'}
-      </div>
     </main>
   )
 }
