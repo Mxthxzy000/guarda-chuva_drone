@@ -60,7 +60,9 @@ export function LoginPage() {
       <div className="auth-card auth-card--split">
         <section className="auth-column" aria-labelledby="login-heading">
           <div className="auth-logo-mobile auth-logo-mobile--hide-desktop">
-            <img src="/brand/logo-texto.png" alt="Nimbus Acessórios Urbanos" />
+            <Link to="/" aria-label="Voltar para a página inicial Aeropia">
+              <img src="/brand/logo-texto.png" alt="Nimbus Acessórios Urbanos" />
+            </Link>
           </div>
 
           <h1 id="login-heading" className="auth-title">
@@ -175,7 +177,9 @@ export function LoginPage() {
         {/* Painel visual lateral (desktop) com o produto real Aeropia */}
         <aside className="auth-showcase" aria-label="Visão geral do Aeropia">
           <div className="auth-showcase__brand">
-            <img src="/brand/logo-texto.png" alt="Nimbus Acessórios Urbanos" />
+            <Link to="/" aria-label="Voltar para a página inicial Aeropia">
+              <img src="/brand/logo-texto.png" alt="Nimbus Acessórios Urbanos" />
+            </Link>
             <span className="auth-showcase__tag">Aeropia · Porto Alegre</span>
           </div>
 

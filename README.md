@@ -12,9 +12,9 @@ Projeto Integrador **Fábrica do Futuro** · Projeto 08 (Guarda-chuva Drone · C
 
 ## Integrantes
 
-- DS A (Back-end e banco): *[Preencher nomes]*
-- DS B (Front-end e funcionalidade): *[Preencher nomes]*
-- Multimídia (Design e produto): *[Preencher nomes]*
+- DS A (Back-end e banco): *Matheus Quirino*
+- DS B (Front-end e funcionalidade): *Luiz Felipe Leite e Samuel Mioni*
+- Multimídia (Design e produto): *Stefani Corrêa e Gabrielle Sinfães*
 
 ## Como rodar o projeto localmente
 

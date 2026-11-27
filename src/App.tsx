@@ -1,6 +1,8 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { useEffect } from 'react'
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { ProtectedRoute } from './components/ProtectedRoute'
+import { LandingPage } from './pages/LandingPage'
 import { LoginPage } from './pages/LoginPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage'
@@ -11,16 +13,23 @@ import { StationsPage } from './pages/StationsPage'
 import { AdminPage } from './pages/AdminPage'
 import { ProfilePage } from './pages/ProfilePage'
 
-function RootRedirect() {
-  const { user, loading } = useAuth()
-  if (loading) {
-    return (
-      <div className="auth-page">
-        <span className="mode-pill">Carregando...</span>
-      </div>
-    )
-  }
-  return <Navigate to={user ? '/dashboard' : '/login'} replace />
+function TasteKitRouteSync() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    const isLanding = pathname === '/'
+    document.querySelectorAll<HTMLLinkElement>('link[data-taste-kit]').forEach((el) => {
+      el.disabled = !isLanding
+    })
+    document.querySelectorAll<HTMLStyleElement>('style[data-taste-kit]').forEach((el) => {
+      el.disabled = !isLanding
+    })
+    if (!isLanding) {
+      document.body.classList.remove('nav-locked')
+    }
+  }, [pathname])
+
+  return null
 }
 
 function PublicOnlyRoute({ children }: { children: React.ReactNode }) {
@@ -42,8 +51,9 @@ export function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <TasteKitRouteSync />
         <Routes>
-          <Route path="/" element={<RootRedirect />} />
+          <Route path="/" element={<LandingPage />} />
 
           {/* Páginas públicas de autenticação */}
           <Route

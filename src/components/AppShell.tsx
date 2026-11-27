@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import {
   CloudRain,
   History,
@@ -58,11 +58,13 @@ export function AppShell({ title, subtitle, headerAction, children }: AppShellPr
           >
             {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
-          <img
-            src="/brand/logo-texto.png"
-            alt="Nimbus Acessórios Urbanos"
-            className="mobile-topbar__logo"
-          />
+          <Link to="/" aria-label="Ir para a página inicial Aeropia">
+            <img
+              src="/brand/logo-texto.png"
+              alt="Nimbus Acessórios Urbanos"
+              className="mobile-topbar__logo"
+            />
+          </Link>
         </div>
         <span className="mode-pill">
           <span
@@ -83,7 +85,9 @@ export function AppShell({ title, subtitle, headerAction, children }: AppShellPr
       <aside className={`sidebar${menuOpen ? ' sidebar--open' : ''}`} aria-label="Menu principal">
         <div className="sidebar__top">
           <div className="sidebar__brand">
-            <img src="/brand/logo-texto.png" alt="Nimbus Acessórios Urbanos" />
+            <Link to="/" onClick={() => setMenuOpen(false)} aria-label="Ir para a página inicial Aeropia">
+              <img src="/brand/logo-texto.png" alt="Nimbus Acessórios Urbanos" />
+            </Link>
           </div>
 
           {user && (

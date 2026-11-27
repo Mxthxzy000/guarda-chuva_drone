@@ -1,0 +1,598 @@
+/* ============================================================================
+   Landing Page Aeropia — Escopo estrito sobre os tokens Figma + taste-skill
+   ============================================================================ */
+
+/* Faz o wrapper #root desaparecer no fluxo da landing para manter header/main/footer diretos no body */
+#root:has(> header.nav) {
+  display: contents;
+}
+
+/* Impede que tokens de app.css (Inter / Plus Jakarta Sans / links azuis / .btn) vazem para a landing */
+:root:has(main#top) {
+  --font-display: 'Sora', system-ui, sans-serif;
+  --font-text: 'Figtree', system-ui, sans-serif;
+  --font-body: 'Figtree', system-ui, sans-serif;
+  --font-mono: 'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+}
+
+body:has(main#top) {
+  font: 400 var(--t-body) / 1.55 var(--font-text);
+  background: var(--bg);
+  color: var(--ink);
+}
+
+body:has(main#top) a {
+  color: inherit;
+}
+
+body:has(main#top) a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+body:has(main#top) .btn,
+body:has(main#top) a.btn {
+  height: var(--btn-h);
+  min-height: 0;
+  padding: 0 var(--s-5);
+  font: 600 var(--t-body) / 1 var(--font-text);
+  border-radius: var(--r-btn);
+}
+
+body:has(main#top) .btn--primary,
+body:has(main#top) a.btn--primary {
+  background: var(--action);
+  color: var(--action-ink);
+  border-color: rgba(140, 212, 255, 0.78);
+}
+
+body:has(main#top) .btn--primary:hover,
+body:has(main#top) a.btn--primary:hover {
+  background: #2ca0ff;
+  color: var(--action-ink);
+}
+
+body:has(main#top) .btn--secondary,
+body:has(main#top) a.btn--secondary {
+  background: #1f2125;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+body:has(main#top) .btn--secondary:hover,
+body:has(main#top) a.btn--secondary:hover {
+  background: #262930;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+body:has(main#top) .skip-link {
+  position: absolute;
+  left: max(var(--gut), (100% - var(--container)) / 2);
+  top: 50%;
+  z-index: 2;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  background: var(--bg);
+  color: var(--ink);
+  padding: 0;
+  border-radius: var(--r-btn);
+}
+
+body:has(main#top) .skip-link:focus {
+  width: auto;
+  height: var(--btn-h);
+  padding: 0 var(--s-5);
+  clip-path: none;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line-strong);
+}
+
+.lp-nav-logo img {
+  height: 36px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+@media (max-width: 639px) {
+  .lp-nav-logo img {
+    height: 28px;
+  }
+}
+
+@media (max-width: 379px) {
+  .lp-nav-logo img {
+    height: 24px;
+  }
+
+  .nav:not(.is-open) .nav__actions .btn {
+    padding-inline: 10px;
+    font-size: 13px;
+  }
+}
+
+/* Garante que o título de #experiencia fique no tamanho padrão de h2 e dê destaque máximo à foto */
+#exp-h {
+  font-size: var(--t-h2);
+  line-height: 1.1;
+}
+
+.lp-footer-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+}
+
+/* Passos na seção #sistema sem linhas horizontais entre os itens (evita section-air) */
+.lp-steps-list {
+  display: grid;
+  gap: 24px;
+}
+
+.lp-step-row {
+  padding: 0;
+  border: 0;
+}
+
+.lp-step-row-btn {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  cursor: pointer;
+}
+
+.lp-step-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #1f2125;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  transition: background-color 150ms var(--ease), color 150ms var(--ease), border-color 150ms var(--ease);
+}
+
+.lp-step-row.is-active .lp-step-badge {
+  background: #0f91fe;
+  border-color: #0f91fe;
+  color: #08090a;
+}
+
+.lp-step-title {
+  display: block;
+  font-size: 17px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.lp-step-desc {
+  display: block;
+  margin-top: 2px;
+  font-size: 15px;
+  color: #c2c8d2;
+  line-height: 1.45;
+}
+
+/* Painel UI de telemetria em #sistema (identificado como [data-ui]) */
+.lp-telemetry-frame {
+  padding: 28px;
+  background: #08090a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--r-lg);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.lp-telemetry-ui {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+}
+
+.lp-ui-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.lp-ui-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.lp-ui-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #10b981;
+  flex: none;
+}
+
+.lp-ui-dot.is-alert {
+  background: #f59e0b;
+}
+
+.lp-ui-state-text {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: #6cc0ff;
+}
+
+.lp-ui-state-text.is-alert {
+  color: #fbbf24;
+}
+
+.lp-ui-svg-wrap {
+  width: 100%;
+  border-radius: 10px;
+  background: #0d0e10;
+  padding: 10px 12px;
+}
+
+.lp-ui-svg-wrap svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.lp-ui-readout-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 639px) {
+  .lp-ui-readout-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.lp-ui-stat {
+  display: grid;
+  gap: 2px;
+}
+
+.lp-ui-stat-k {
+  font-size: 12px;
+  color: #a9b1be;
+}
+
+.lp-ui-stat-v {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 600;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Imagens e frames responsivos sem overflow */
+.lp-photo-box {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: #0d0e10;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.lp-photo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 600ms var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lp-photo-box:hover img {
+    transform: scale(1.025);
+  }
+}
+
+.lp-showcase-frame {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+}
+
+.lp-split-photo {
+  aspect-ratio: 4 / 3;
+}
+
+/* Seção Estações: lista + 2 cards comerciais */
+.lp-station-col {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+.lp-offers-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+
+.lp-offer-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px 16px;
+  padding: 14px 18px;
+  background: #08090a;
+}
+
+.lp-offer-card h3 {
+  font-size: 15px;
+  color: #a9b1be;
+}
+
+.lp-offer-price {
+  grid-column: 2;
+  grid-row: 1;
+  text-align: right;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+
+.lp-offer-desc {
+  grid-column: 1;
+  font-size: 14px;
+  color: #c2c8d2;
+  line-height: 1.4;
+}
+
+.lp-offer-card .link {
+  grid-column: 2;
+  justify-self: end;
+}
+
+/* Tablet (640-1023px): colunas do rodapé preenchem toda a largura */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .footer .lp-footer-col {
+    grid-column: auto / span 6;
+  }
+}
+
+@media (max-width: 1023px) {
+  .lp-showcase-frame {
+    min-height: 260px;
+    aspect-ratio: 16 / 9;
+  }
+
+  .lp-split-photo {
+    aspect-ratio: 16 / 10;
+  }
+
+  #sistema .section-head,
+  #sensores .section-head,
+  #estacoes .section-head {
+    margin-bottom: 20px;
+  }
+
+  #sensores .rows > li,
+  #estacoes .rows > li {
+    padding-block: 10px;
+  }
+}
+
+/* Mobile (< 640px): cada seção dentro de 1 tela (<= 844px) e alinhada na margem esquerda */
+@media (max-width: 639px) {
+  #sistema,
+  #sensores,
+  #estacoes {
+    padding-top: 72px;
+    padding-bottom: 44px;
+  }
+
+  #contato {
+    padding-top: 72px;
+    padding-bottom: 32px;
+  }
+
+  #contato > .wrap {
+    row-gap: 24px;
+  }
+
+  #contato .closing__links {
+    gap: 18px;
+  }
+
+  #sistema .section-head,
+  #sensores .section-head,
+  #estacoes .section-head {
+    margin-bottom: 14px;
+    gap: 6px;
+  }
+
+  .lp-steps-list {
+    gap: 12px;
+  }
+
+  .lp-telemetry-frame {
+    padding: 14px;
+  }
+
+  .lp-telemetry-ui {
+    gap: 10px;
+  }
+
+  .lp-ui-stat-v {
+    font-size: 16px;
+  }
+
+  #sensores .rows > li,
+  #estacoes .rows > li {
+    padding-block: 7px;
+  }
+
+  .lp-split-photo {
+    aspect-ratio: 16 / 10;
+    min-height: 196px;
+  }
+
+  .lp-offers-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .lp-offer-card {
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .lp-offer-price {
+    font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-photo-box img,
+  .lp-step-badge,
+  .lp-reveal,
+  .lp-scroll-progress {
+    transition: none;
+    animation: none;
+  }
+
+  .lp-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ============================================================================
+   Animações de Scroll (Progresso, Revelação em Cascata e Movimento Dinâmico)
+   ============================================================================ */
+.lp-scroll-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: linear-gradient(90deg, #0f91fe 0%, #6cc0ff 100%);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.hero--photo > picture.hero__bg > img {
+  will-change: transform;
+}
+
+.lp-showcase-frame > img {
+  will-change: transform;
+}
+
+html.lp-anim-ready .lp-reveal {
+  opacity: 0;
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 760ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+html.lp-anim-ready .lp-reveal--up {
+  transform: translate3d(0, 32px, 0);
+}
+
+html.lp-anim-ready .lp-reveal--left {
+  transform: translate3d(-28px, 0, 0);
+}
+
+html.lp-anim-ready .lp-reveal--right {
+  transform: translate3d(28px, 0, 0);
+}
+
+html.lp-anim-ready .lp-reveal--scale {
+  transform: translate3d(0, 24px, 0) scale(0.96);
+}
+
+html.lp-anim-ready .lp-reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+html.lp-anim-ready .lp-delay-1 {
+  transition-delay: 70ms;
+}
+
+html.lp-anim-ready .lp-delay-2 {
+  transition-delay: 140ms;
+}
+
+html.lp-anim-ready .lp-delay-3 {
+  transition-delay: 210ms;
+}
+
+html.lp-anim-ready .lp-delay-4 {
+  transition-delay: 280ms;
+}
+
+/* Pulso vivo no indicador de telemetria */
+@keyframes lp-dot-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.lp-ui-dot {
+  animation: lp-dot-pulse 2.4s ease-out infinite;
+}
+
+.lp-ui-dot.is-alert {
+  animation: none;
+}
+
+/* Transição suave na barra do gráfico SVG de telemetria */
+.lp-ui-svg-wrap rect {
+  transition: width 360ms cubic-bezier(0.22, 1, 0.36, 1), fill 240ms ease;
+}
+
+.lp-ui-svg-wrap path {
+  transition: d 360ms cubic-bezier(0.22, 1, 0.36, 1), stroke 240ms ease;
+}

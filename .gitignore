@@ -16,3 +16,7 @@ Thumbs.db
 *.log
 .vscode/*
 !.vscode/extensions.json
+
+# Agent skills & local verification artifacts
+.agents/
+.taste-skill/
