@@ -63,7 +63,7 @@ export function LiveTelemetryMock({ activeStep }: LiveTelemetryMockProps) {
 
   const windRatio = Math.min(1, preset.windDeg / 40)
   const barWidth = Math.round(windRatio * 480)
-  const strokeColor = preset.suspended ? '#f59e0b' : '#0f91fe'
+  const strokeColor = preset.suspended ? '#f59e0b' : 'var(--accent, #0f91fe)'
 
   return (
     <div className="lp-telemetry-frame" data-ui="telemetry" aria-label="Telemetria Aeropia">
@@ -125,12 +125,12 @@ export function LiveTelemetryMock({ activeStep }: LiveTelemetryMockProps) {
             role="img"
             aria-label={`Curva de estabilidade do vento em ${preset.windDeg} graus`}
           >
-            <line x1="16" y1="24" x2="504" y2="24" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-            <line x1="16" y1="54" x2="504" y2="54" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+            <line x1="16" y1="24" x2="504" y2="24" stroke="var(--lp-svg-grid)" strokeWidth="1" />
+            <line x1="16" y1="54" x2="504" y2="54" stroke="var(--lp-svg-grid)" strokeWidth="1" />
             <path
               d="M 16 64 Q 90 22, 172 52 T 334 40 T 504 38"
               fill="none"
-              stroke="rgba(255,255,255,0.14)"
+              stroke="var(--lp-svg-ref)"
               strokeWidth="2"
             />
             <path
@@ -144,7 +144,7 @@ export function LiveTelemetryMock({ activeStep }: LiveTelemetryMockProps) {
               strokeWidth="2.5"
               strokeLinecap="round"
             />
-            <rect x="16" y="96" width="480" height="6" rx="3" fill="#1f2125" />
+            <rect x="16" y="96" width="480" height="6" rx="3" fill="var(--lp-svg-track)" />
             <rect x="16" y="96" width={barWidth} height="6" rx="3" fill={strokeColor} />
           </svg>
         </div>

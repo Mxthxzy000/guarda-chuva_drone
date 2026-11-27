@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Eye, EyeOff, KeyRound, Mail } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { SocialButtons } from '../components/SocialButtons'
+import { ThemeToggle } from '../components/ThemeToggle'
 
 export function LoginPage() {
   const { login } = useAuth()
@@ -62,6 +63,7 @@ export function LoginPage() {
           <ArrowLeft size={16} aria-hidden="true" />
           <span>Voltar ao início</span>
         </Link>
+        <ThemeToggle showLabel />
       </div>
       <div className="auth-card auth-card--split">
         <section className="auth-column" aria-labelledby="login-heading">

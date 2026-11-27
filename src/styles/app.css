@@ -1,5 +1,5 @@
 :root {
-  /* Paleta exata extraída das telas Figma da Nimbus */
+  /* Paleta exata extraída das telas Figma da Nimbus (Modo Escuro padrão) */
   --bg-canvas: #141518;
   --bg-surface: #0d0e10;
   --bg-recessed: #08090a;
@@ -10,22 +10,48 @@
   --accent-hover: #219bff;
   --accent-active: #0a7de0;
   --accent-border: rgba(140, 212, 255, 0.78);
+  --accent-border-hover: #b7e2ff;
   --accent-soft: rgba(15, 145, 254, 0.14);
 
   --ink: #ffffff;
   --ink-secondary: #d4d8df;
   --ink-muted: #8e95a2;
   --ink-subtle: #666d7a;
+  --ink-on-accent: #ffffff;
 
   --border-subtle: rgba(255, 255, 255, 0.06);
   --border-strong: rgba(255, 255, 255, 0.12);
+  --border-hover: rgba(255, 255, 255, 0.22);
+  --hover-overlay: rgba(255, 255, 255, 0.06);
+  --surface-tint: rgba(255, 255, 255, 0.02);
+  --sidebar-link-hover: rgba(255, 255, 255, 0.04);
+  --sidebar-active-bg: rgba(15, 145, 254, 0.12);
+  --sidebar-active-border: rgba(15, 145, 254, 0.28);
 
   --success: #10b981;
   --success-soft: rgba(16, 185, 129, 0.14);
+  --success-ink: #34d399;
+  --success-alert-ink: #a7f3d0;
   --warning: #f59e0b;
   --warning-soft: rgba(245, 158, 11, 0.14);
+  --warning-ink: #fbbf24;
+  --warning-alert-ink: #fde68a;
   --danger: #ef4444;
   --danger-soft: rgba(239, 68, 68, 0.14);
+  --danger-soft-hover: rgba(239, 68, 68, 0.24);
+  --danger-ink: #fca5a5;
+  --danger-text: #f87171;
+  --danger-alert-ink: #fecaca;
+  --info-ink: #60b8ff;
+  --info-alert-ink: #bae6fd;
+
+  --active-call-bg: linear-gradient(135deg, rgba(15, 145, 254, 0.12), rgba(8, 9, 10, 0.96) 55%);
+  --active-call-border: rgba(15, 145, 254, 0.35);
+  --sensor-item-bg: rgba(13, 14, 16, 0.85);
+  --station-hover-border: rgba(15, 145, 254, 0.45);
+  --station-selected-bg: rgba(15, 145, 254, 0.08);
+  --chart-line: #ffffff;
+  --backdrop-scrim: rgba(0, 0, 0, 0.68);
 
   --r-lg: 16px;
   --r-md: 12px;
@@ -34,6 +60,65 @@
 
   --font-display: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ============================================================================
+   Modo Claro — Paleta exata extraída de assets/Aeropia - Projeto SENAI.pdf
+   Destaques: #1396FF, #0575CA, #0072CE | Texto: #195DA8 | Céu/Cards: #F2F8FE, #E5F2FE, #CBE8FD, #FFFFFF
+   ============================================================================ */
+:root[data-theme='light'] {
+  --bg-canvas: #F2F8FE;
+  --bg-surface: #FFFFFF;
+  --bg-recessed: #E5F2FE;
+  --bg-input: #DCEDFD;
+  --bg-input-hover: #CBE8FD;
+
+  --accent: #1396FF;
+  --accent-hover: #0575CA;
+  --accent-active: #0072CE;
+  --accent-border: #1396FF;
+  --accent-border-hover: #0575CA;
+  --accent-soft: rgba(19, 150, 255, 0.14);
+
+  --ink: #195DA8;
+  --ink-secondary: #0575CA;
+  --ink-muted: #0072CE;
+  --ink-subtle: rgba(25, 93, 168, 0.7);
+  --ink-on-accent: #FFFFFF;
+
+  --border-subtle: rgba(19, 150, 255, 0.2);
+  --border-strong: rgba(25, 93, 168, 0.28);
+  --border-hover: rgba(19, 150, 255, 0.48);
+  --hover-overlay: rgba(19, 150, 255, 0.1);
+  --surface-tint: #E5F2FE;
+  --sidebar-link-hover: rgba(19, 150, 255, 0.1);
+  --sidebar-active-bg: #CBE8FD;
+  --sidebar-active-border: rgba(19, 150, 255, 0.45);
+
+  --success: #059669;
+  --success-soft: rgba(5, 150, 105, 0.12);
+  --success-ink: #047857;
+  --success-alert-ink: #065f46;
+  --warning: #d97706;
+  --warning-soft: rgba(217, 119, 6, 0.14);
+  --warning-ink: #b45309;
+  --warning-alert-ink: #92400e;
+  --danger: #dc2626;
+  --danger-soft: rgba(220, 38, 38, 0.1);
+  --danger-soft-hover: rgba(220, 38, 38, 0.2);
+  --danger-ink: #b91c1c;
+  --danger-text: #dc2626;
+  --danger-alert-ink: #991b1b;
+  --info-ink: #0072CE;
+  --info-alert-ink: #195DA8;
+
+  --active-call-bg: linear-gradient(135deg, #CBE8FD 0%, #E5F2FE 55%, #FFFFFF 100%);
+  --active-call-border: rgba(19, 150, 255, 0.45);
+  --sensor-item-bg: #FFFFFF;
+  --station-hover-border: #1396FF;
+  --station-selected-bg: #CBE8FD;
+  --chart-line: #1396FF;
+  --backdrop-scrim: rgba(25, 93, 168, 0.32);
 }
 
 *,
@@ -96,7 +181,7 @@ a:hover {
   left: 16px;
   z-index: 100;
   background: var(--accent);
-  color: var(--ink);
+  color: var(--ink-on-accent);
   padding: 10px 16px;
   border-radius: var(--r-btn);
   font-weight: 600;
@@ -105,6 +190,46 @@ a:hover {
 
 .skip-link:focus {
   top: 16px;
+}
+
+/* ============================================================================
+   Botão de alternância de tema (Claro / Escuro)
+   ============================================================================ */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-strong);
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    color 0.16s ease,
+    transform 0.12s ease;
+}
+
+.theme-toggle--compact {
+  width: 36px;
+  padding: 0;
+}
+
+.theme-toggle:hover {
+  background-color: var(--bg-input-hover);
+  border-color: var(--accent);
+  color: var(--ink);
+}
+
+.theme-toggle:active {
+  transform: translateY(1px);
 }
 
 /* ============================================================================
@@ -150,15 +275,15 @@ a.btn:focus-visible {
 .btn--primary,
 a.btn--primary {
   background-color: var(--accent);
-  color: var(--ink);
+  color: var(--ink-on-accent);
   border-color: var(--accent-border);
 }
 
 .btn--primary:hover:not(:disabled),
 a.btn--primary:hover {
   background-color: var(--accent-hover);
-  color: var(--ink);
-  border-color: #b7e2ff;
+  color: var(--ink-on-accent);
+  border-color: var(--accent-border-hover);
   text-decoration: none;
 }
 
@@ -173,21 +298,21 @@ a.btn--secondary {
 a.btn--secondary:hover {
   background-color: var(--bg-input-hover);
   color: var(--ink);
-  border-color: rgba(255, 255, 255, 0.22);
+  border-color: var(--border-hover);
   text-decoration: none;
 }
 
 .btn--danger,
 a.btn--danger {
   background-color: var(--danger-soft);
-  color: #fca5a5;
+  color: var(--danger-ink);
   border-color: rgba(239, 68, 68, 0.35);
 }
 
 .btn--danger:hover:not(:disabled),
 a.btn--danger:hover {
-  background-color: rgba(239, 68, 68, 0.24);
-  color: var(--ink);
+  background-color: var(--danger-soft-hover);
+  color: var(--danger-ink);
   text-decoration: none;
 }
 
@@ -201,7 +326,7 @@ a.btn--ghost {
 
 .btn--ghost:hover:not(:disabled),
 a.btn--ghost:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--hover-overlay);
   color: var(--ink);
   text-decoration: none;
 }
@@ -305,12 +430,12 @@ a.btn--ghost:hover {
 
 .field__toggle:hover {
   color: var(--ink);
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--hover-overlay);
 }
 
 .field__error {
   font-size: 13px;
-  color: #f87171;
+  color: var(--danger-text);
   margin: 0;
 }
 
@@ -328,25 +453,25 @@ a.btn--ghost:hover {
 .alert--error {
   background: var(--danger-soft);
   border-color: rgba(239, 68, 68, 0.32);
-  color: #fecaca;
+  color: var(--danger-alert-ink);
 }
 
 .alert--success {
   background: var(--success-soft);
   border-color: rgba(16, 185, 129, 0.34);
-  color: #a7f3d0;
+  color: var(--success-alert-ink);
 }
 
 .alert--info {
   background: var(--accent-soft);
-  border-color: rgba(15, 145, 254, 0.34);
-  color: #bae6fd;
+  border-color: var(--accent-border);
+  color: var(--info-alert-ink);
 }
 
 .alert--warning {
   background: var(--warning-soft);
   border-color: rgba(245, 158, 11, 0.34);
-  color: #fde68a;
+  color: var(--warning-alert-ink);
 }
 
 /* ============================================================================
@@ -368,7 +493,12 @@ a.btn--ghost:hover {
   max-width: 1040px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.auth-topbar--end {
+  justify-content: flex-end;
 }
 
 .auth-back-btn {
@@ -685,7 +815,7 @@ a.btn--ghost:hover {
   gap: 12px;
   padding: 10px 8px;
   border-radius: var(--r-sm);
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--surface-tint);
   border: 1px solid var(--border-subtle);
 }
 
@@ -761,14 +891,14 @@ a.btn--ghost:hover {
 }
 
 .sidebar__link:hover {
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: var(--sidebar-link-hover);
   color: var(--ink);
   text-decoration: none;
 }
 
 .sidebar__link--active {
-  background-color: rgba(15, 145, 254, 0.12);
-  border-color: rgba(15, 145, 254, 0.28);
+  background-color: var(--sidebar-active-bg);
+  border-color: var(--sidebar-active-border);
   color: var(--ink);
   font-weight: 600;
 }
@@ -957,7 +1087,7 @@ a.btn--ghost:hover {
 }
 
 .filter-pill--active {
-  border-color: rgba(15, 145, 254, 0.55);
+  border-color: var(--accent-border);
   background-color: var(--accent-soft);
   color: var(--ink);
 }
@@ -1016,30 +1146,30 @@ a.btn--ghost:hover {
 
 .badge--info {
   background: var(--accent-soft);
-  color: #60b8ff;
-  border: 1px solid rgba(15, 145, 254, 0.3);
+  color: var(--info-ink);
+  border: 1px solid rgba(19, 150, 255, 0.35);
 }
 
 .badge--success {
   background: var(--success-soft);
-  color: #34d399;
+  color: var(--success-ink);
   border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
 .badge--warning {
   background: var(--warning-soft);
-  color: #fbbf24;
+  color: var(--warning-ink);
   border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
 .badge--danger {
   background: var(--danger-soft);
-  color: #f87171;
+  color: var(--danger-text);
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 .badge--neutral {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--hover-overlay);
   color: var(--ink-secondary);
   border: 1px solid var(--border-subtle);
 }
@@ -1077,8 +1207,8 @@ a.btn--ghost:hover {
 
 /* Card de atendimento ativo */
 .active-call-card {
-  background: linear-gradient(135deg, rgba(15, 145, 254, 0.12), rgba(8, 9, 10, 0.96) 55%);
-  border: 1px solid rgba(15, 145, 254, 0.35);
+  background: var(--active-call-bg);
+  border: 1px solid var(--active-call-border);
   border-radius: var(--r-md);
   padding: 20px;
   display: flex;
@@ -1093,7 +1223,7 @@ a.btn--ghost:hover {
 }
 
 .sensor-item {
-  background: rgba(13, 14, 16, 0.85);
+  background: var(--sensor-item-bg);
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
   padding: 10px 12px;
@@ -1140,13 +1270,13 @@ a.btn--ghost:hover {
 }
 
 .station-item--selectable:hover {
-  border-color: rgba(15, 145, 254, 0.45);
+  border-color: var(--station-hover-border);
   transform: translateY(-2px);
 }
 
 .station-item--selected {
   border-color: var(--accent);
-  background: rgba(15, 145, 254, 0.08);
+  background: var(--station-selected-bg);
 }
 
 .station-item__name {
@@ -1243,7 +1373,7 @@ a.btn--ghost:hover {
   height: 56px;
   border-radius: 50%;
   background: var(--danger-soft);
-  color: #f87171;
+  color: var(--danger-text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1325,7 +1455,7 @@ a.btn--ghost:hover {
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.68);
+    background: var(--backdrop-scrim);
     z-index: 40;
   }
 
@@ -1379,6 +1509,7 @@ a.btn--ghost:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {

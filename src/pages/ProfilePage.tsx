@@ -20,7 +20,7 @@ export function ProfilePage() {
           <div className="station-list">
             <div className="station-item">
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <User size={18} color="#8e95a2" aria-hidden="true" />
+                <User size={18} color="var(--ink-muted)" aria-hidden="true" />
                 <div>
                   <span className="sensor-item__label">Nome completo</span>
                   <div className="station-item__name">{user?.nome}</div>
@@ -30,7 +30,7 @@ export function ProfilePage() {
 
             <div className="station-item">
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <Mail size={18} color="#8e95a2" aria-hidden="true" />
+                <Mail size={18} color="var(--ink-muted)" aria-hidden="true" />
                 <div>
                   <span className="sensor-item__label">E-mail</span>
                   <div className="station-item__name">{user?.email}</div>
@@ -40,7 +40,7 @@ export function ProfilePage() {
 
             <div className="station-item">
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <MapPin size={18} color="#8e95a2" aria-hidden="true" />
+                <MapPin size={18} color="var(--ink-muted)" aria-hidden="true" />
                 <div>
                   <span className="sensor-item__label">Bairro</span>
                   <div className="station-item__name">{user?.bairro}</div>
@@ -50,7 +50,7 @@ export function ProfilePage() {
 
             <div className="station-item">
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <Shield size={18} color="#8e95a2" aria-hidden="true" />
+                <Shield size={18} color="var(--ink-muted)" aria-hidden="true" />
                 <div>
                   <span className="sensor-item__label">Nível de acesso</span>
                   <div className="station-item__name">

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Menu, X } from 'lucide-react'
+import { Menu, Moon, Sun, X } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
+import { useTheme } from '../contexts/ThemeContext'
 import { HeroRainBackground } from '../components/landing/HeroRainBackground'
 import { LiveTelemetryMock } from '../components/landing/LiveTelemetryMock'
 import VariableProximity from '../components/landing/VariableProximity'
@@ -56,6 +57,7 @@ const STATIONS = [
 
 export function LandingPage() {
   const { user } = useAuth()
+  const { isLight, toggleTheme } = useTheme()
   const [activeStep, setActiveStep] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState<string>('experiencia')
@@ -225,6 +227,17 @@ export function LandingPage() {
           </nav>
 
           <div className="nav__actions">
+            <button
+              type="button"
+              className="lp-theme-toggle"
+              onClick={toggleTheme}
+              aria-label={isLight ? 'Ativar modo escuro' : 'Ativar modo claro'}
+              aria-pressed={isLight}
+              title={isLight ? 'Ativar modo escuro' : 'Ativar modo claro'}
+            >
+              {isLight ? <Moon size={16} aria-hidden="true" /> : <Sun size={16} aria-hidden="true" />}
+              <span>{isLight ? 'Escuro' : 'Claro'}</span>
+            </button>
             <Link className="btn btn--primary" to={primaryHref} onClick={closeMenu}>
               Solicitar cobertura
             </Link>
@@ -303,8 +316,8 @@ export function LandingPage() {
                     className="lp-hero-proximity"
                     fromFontVariationSettings="'wght' 450, 'opsz' 24"
                     toFontVariationSettings="'wght' 900, 'opsz' 64"
-                    fromColor="#ffffff"
-                    toColor="#6cc0ff"
+                    fromColor="var(--lp-hero-ink)"
+                    toColor="var(--lp-hero-accent)"
                     containerRef={heroTextRef}
                     radius={160}
                     falloff="gaussian"

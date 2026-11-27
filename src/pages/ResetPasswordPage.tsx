@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Eye, EyeOff, KeyRound } from 'lucide-react'
 import { dataService } from '../services/dataService'
+import { ThemeToggle } from '../components/ThemeToggle'
 
 export function ResetPasswordPage() {
   const navigate = useNavigate()
@@ -49,6 +50,9 @@ export function ResetPasswordPage() {
 
   return (
     <main className="auth-page">
+      <div className="auth-topbar auth-topbar--end">
+        <ThemeToggle showLabel />
+      </div>
       <div className="auth-card auth-card--centered">
         <div
           style={{

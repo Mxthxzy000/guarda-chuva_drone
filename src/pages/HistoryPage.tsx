@@ -114,7 +114,7 @@ export function HistoryPage() {
                 <tbody>
                   {filtered.map((item) => (
                     <tr key={item.id}>
-                      <td style={{ color: '#FFFFFF', fontWeight: 500 }}>{item.local}</td>
+                      <td style={{ color: 'var(--ink)', fontWeight: 500 }}>{item.local}</td>
                       <td>{item.duracao_minutos} min</td>
                       <td>{item.estacao_nome || 'Seleção automática'}</td>
                       <td>{formatDateTime(item.criado_em)}</td>

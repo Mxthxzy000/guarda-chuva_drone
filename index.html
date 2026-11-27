@@ -6,6 +6,8 @@
   data-buttons="solid"
   data-motion="on"
   data-tone="dark"
+  data-theme="dark"
+  data-mode="dark"
 >
 
 <head>
@@ -73,6 +75,19 @@
   </style>
 
   <script>
+    (function () {
+      try {
+        var saved = window.localStorage.getItem('aeropia-theme');
+        if (saved === 'light' || saved === 'dark') {
+          document.documentElement.setAttribute('data-theme', saved);
+          document.documentElement.setAttribute('data-tone', saved);
+          document.documentElement.setAttribute('data-mode', saved);
+          document.documentElement.style.colorScheme = saved;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', saved === 'light' ? '#F2F8FE' : '#141518');
+        }
+      } catch (e) {}
+    })();
     document.documentElement.classList.add('m-enter');
     setTimeout(() => document.documentElement.classList.add('m-enter-done'), 700);
     document.documentElement.classList.add('mo-js');

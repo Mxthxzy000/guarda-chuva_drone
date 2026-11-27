@@ -131,15 +131,15 @@ export function AdminPage() {
     try {
       const result = editingId
         ? await dataService.updateStation(editingId, {
-            nome,
-            endereco,
-            vagas: parsedVagas,
-          })
+          nome,
+          endereco,
+          vagas: parsedVagas,
+        })
         : await dataService.createStation({
-            nome,
-            endereco,
-            vagas: parsedVagas,
-          })
+          nome,
+          endereco,
+          vagas: parsedVagas,
+        })
 
       if (!result.ok) {
         setFormError(result.error || 'Não foi possível salvar a estação.')
@@ -148,7 +148,7 @@ export function AdminPage() {
 
       setFormSuccess(
         result.message ||
-          (editingId ? 'Estação atualizada com sucesso.' : 'Estação cadastrada com sucesso.')
+        (editingId ? 'Estação atualizada com sucesso.' : 'Estação cadastrada com sucesso.')
       )
       resetForm()
       await loadAdminData()
@@ -227,7 +227,7 @@ export function AdminPage() {
                   Todos os campos são obrigatórios e refletem imediatamente no site.
                 </p>
               </div>
-              <Plus size={18} color="#0f91fe" aria-hidden="true" />
+              <Plus size={18} color="var(--accent)" aria-hidden="true" />
             </div>
 
             <form className="auth-form" onSubmit={handleSubmit} noValidate>
@@ -357,7 +357,7 @@ export function AdminPage() {
                   <tbody>
                     {stations.map((st) => (
                       <tr key={st.id}>
-                        <td style={{ color: '#FFFFFF', fontWeight: 500 }}>{st.nome}</td>
+                        <td style={{ color: 'var(--ink)', fontWeight: 500 }}>{st.nome}</td>
                         <td>{st.endereco}</td>
                         <td>
                           <span className="badge badge--info">{st.vagas} vagas</span>

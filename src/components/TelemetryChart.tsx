@@ -55,16 +55,16 @@ export function TelemetryChart({ points, unit, ariaLabel }: TelemetryChartProps)
               y1={y}
               x2={width - padX}
               y2={y}
-              stroke="rgba(255,255,255,0.05)"
+              stroke="var(--border-subtle)"
               strokeWidth="1"
             />
           )
         })}
 
-        {/* Linha principal branca nítida (fiel ao gráfico de pc-dashboard.png) */}
+        {/* Linha principal nítida (adaptada ao tema ativo) */}
         <polyline
           fill="none"
-          stroke="#FFFFFF"
+          stroke="var(--chart-line)"
           strokeWidth="1.8"
           strokeLinejoin="round"
           strokeLinecap="round"
@@ -74,14 +74,21 @@ export function TelemetryChart({ points, unit, ariaLabel }: TelemetryChartProps)
         {/* Pontos de leitura */}
         {coords.map((c, idx) => (
           <g key={`${c.label}-${idx}`}>
-            <circle cx={c.x} cy={c.y} r="3.4" fill="#FFFFFF" stroke="#08090A" strokeWidth="1.5">
+            <circle
+              cx={c.x}
+              cy={c.y}
+              r="3.4"
+              fill="var(--chart-line)"
+              stroke="var(--bg-recessed)"
+              strokeWidth="1.5"
+            >
               <title>{`${c.label}: ${c.value}${unit}`}</title>
             </circle>
             <text
               x={c.x}
               y={height - 4}
               textAnchor="middle"
-              fill="#666D7A"
+              fill="var(--ink-subtle)"
               fontSize="11"
               fontFamily="Inter, sans-serif"
             >

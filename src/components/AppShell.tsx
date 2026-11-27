@@ -6,11 +6,15 @@ import {
   LogOut,
   MapPin,
   Menu,
+  Moon,
   ShieldCheck,
+  Sun,
   User,
   X,
 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
+import { useTheme } from '../contexts/ThemeContext'
+import { ThemeToggle } from './ThemeToggle'
 
 interface AppShellProps {
   title: string
@@ -28,6 +32,7 @@ function getInitials(name: string): string {
 
 export function AppShell({ title, subtitle, headerAction, children }: AppShellProps) {
   const { user, logout, isLiveSupabase } = useAuth()
+  const { isLight, toggleTheme } = useTheme()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -150,6 +155,16 @@ export function AppShell({ title, subtitle, headerAction, children }: AppShellPr
         </div>
 
         <div className="sidebar__bottom">
+          <button
+            type="button"
+            className="sidebar__link"
+            onClick={toggleTheme}
+            aria-pressed={isLight}
+          >
+            {isLight ? <Moon size={18} aria-hidden="true" /> : <Sun size={18} aria-hidden="true" />}
+            <span>{isLight ? 'Modo escuro' : 'Modo claro'}</span>
+          </button>
+
           <NavLink
             to="/perfil"
             className={navClass}
@@ -174,6 +189,7 @@ export function AppShell({ title, subtitle, headerAction, children }: AppShellPr
           </div>
           <div className="actions-row">
             {headerAction}
+            <ThemeToggle showLabel />
             <span className="mode-pill" title="Status da conexão com banco de dados">
               <span
                 className={`mode-pill__dot${isLiveSupabase ? '' : ' mode-pill__dot--demo'}`}

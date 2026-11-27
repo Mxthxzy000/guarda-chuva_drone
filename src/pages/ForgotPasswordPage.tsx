@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowLeft, Mail, Phone } from 'lucide-react'
 import { dataService } from '../services/dataService'
 import { useAuth } from '../contexts/AuthContext'
+import { ThemeToggle } from '../components/ThemeToggle'
 
 export function ForgotPasswordPage() {
   const { isLiveSupabase } = useAuth()
@@ -60,6 +61,9 @@ export function ForgotPasswordPage() {
 
   return (
     <main className="auth-page">
+      <div className="auth-topbar auth-topbar--end">
+        <ThemeToggle showLabel />
+      </div>
       <div className="auth-card auth-card--split">
         <section className="auth-column" aria-labelledby="forgot-heading">
           <div className="auth-logo-mobile">

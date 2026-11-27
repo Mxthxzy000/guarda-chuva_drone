@@ -408,7 +408,7 @@ export function DashboardPage() {
                     Informe o ponto de encontro e o tempo de uso para acionar o Aeropia mais próximo.
                   </p>
                 </div>
-                <CloudRain size={20} color="#0f91fe" aria-hidden="true" />
+                <CloudRain size={20} color="var(--accent)" aria-hidden="true" />
               </div>
 
               <form className="auth-form" onSubmit={handleCallDrone} noValidate>
@@ -593,7 +593,7 @@ export function DashboardPage() {
                     <tbody>
                       {dispatches.slice(0, 6).map((item) => (
                         <tr key={item.id}>
-                          <td style={{ color: '#FFFFFF', fontWeight: 500 }}>{item.local}</td>
+                          <td style={{ color: 'var(--ink)', fontWeight: 500 }}>{item.local}</td>
                           <td>{item.duracao_minutos} min</td>
                           <td>{item.estacao_nome || 'Automática'}</td>
                           <td>{formatDateTime(item.criado_em)}</td>
@@ -632,9 +632,8 @@ export function DashboardPage() {
                     <button
                       key={station.id}
                       type="button"
-                      className={`station-item station-item--selectable${
-                        isSelected ? ' station-item--selected' : ''
-                      }`}
+                      className={`station-item station-item--selectable${isSelected ? ' station-item--selected' : ''
+                        }`}
                       onClick={() =>
                         setSelectedStationId((prev) => (prev === station.id ? '' : station.id))
                       }
