@@ -4,6 +4,7 @@ import { Menu, X } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { HeroRainBackground } from '../components/landing/HeroRainBackground'
 import { LiveTelemetryMock } from '../components/landing/LiveTelemetryMock'
+import VariableProximity from '../components/landing/VariableProximity'
 import '../styles/landing.css'
 
 const STEPS = [
@@ -246,7 +247,7 @@ export function LandingPage() {
         {/* Tela 1: Hero visual — somente título chamativo, subtítulo curto (<=3 linhas) e 2 CTAs */}
         <section
           className="hero hero--photo"
-          data-enter=""
+          data-enter="off"
           data-calm="left"
           data-box="none"
           data-tone="dark"
@@ -269,8 +270,28 @@ export function LandingPage() {
 
           <div className="wrap">
             <div className="hero-text">
-              <div ref={heroTextRef} className="hero__text lp-hero-motion">
-                <h1 id="hero-h">Guarda-chuva drone autônomo</h1>
+              <div
+                ref={heroTextRef}
+                className="hero__text lp-hero-motion"
+                style={{ position: 'relative' }}
+              >
+                <h1 id="hero-h">
+                  <VariableProximity
+                    label="Guarda-chuva drone autônomo"
+                    className="lp-hero-proximity"
+                    fromFontVariationSettings="'wght' 450, 'opsz' 24"
+                    toFontVariationSettings="'wght' 900, 'opsz' 64"
+                    fromColor="#ffffff"
+                    toColor="#6cc0ff"
+                    containerRef={heroTextRef}
+                    radius={160}
+                    falloff="gaussian"
+                    smoothing={0.28}
+                    scale={1.14}
+                    lift={0.14}
+                    idleWave={false}
+                  />
+                </h1>
                 <p className="hero__lead">
                   O Aeropia voa de 40 a 80 cm acima de você em Porto Alegre. Proteção autônoma
                   contra a chuva sem ocupar as mãos.
@@ -341,9 +362,8 @@ export function LandingPage() {
                   {STEPS.map((step, index) => (
                     <li
                       key={step.code}
-                      className={`lp-step-row lp-reveal lp-reveal--left lp-delay-${index + 1}${
-                        activeStep === index ? ' is-active' : ''
-                      }`}
+                      className={`lp-step-row lp-reveal lp-reveal--left lp-delay-${index + 1}${activeStep === index ? ' is-active' : ''
+                        }`}
                       data-lp-reveal=""
                     >
                       <button
