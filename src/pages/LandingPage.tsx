@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
+import { HeroRainBackground } from '../components/landing/HeroRainBackground'
 import { LiveTelemetryMock } from '../components/landing/LiveTelemetryMock'
 import '../styles/landing.css'
 
@@ -263,6 +264,8 @@ export function LandingPage() {
               fetchPriority="high"
             />
           </picture>
+
+          <HeroRainBackground />
 
           <div className="wrap">
             <div className="hero-text">
