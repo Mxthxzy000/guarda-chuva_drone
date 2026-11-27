@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { SocialButtons } from '../components/SocialButtons'
 
 export function LoginPage() {
-  const { login, isLiveSupabase } = useAuth()
+  const { login } = useAuth()
   const navigate = useNavigate()
 
   const [email, setEmail] = useState('')

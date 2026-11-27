@@ -13,7 +13,7 @@ interface RegisterErrors {
 }
 
 export function RegisterPage() {
-  const { register, isLiveSupabase } = useAuth()
+  const { register } = useAuth()
   const navigate = useNavigate()
 
   const [nome, setNome] = useState('')

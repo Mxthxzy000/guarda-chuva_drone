@@ -59,8 +59,9 @@ export function LandingPage() {
   const [activeStep, setActiveStep] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState<string>('experiencia')
+  const [videoFailed, setVideoFailed] = useState(false)
   const progressBarRef = useRef<HTMLDivElement | null>(null)
-  const heroBgRef = useRef<HTMLImageElement | null>(null)
+  const heroBgRef = useRef<HTMLVideoElement | HTMLImageElement | null>(null)
   const heroTextRef = useRef<HTMLDivElement | null>(null)
 
   const primaryHref = user ? '/dashboard' : '/cadastro'
@@ -122,9 +123,8 @@ export function LandingPage() {
       if (scrollY <= vh * 1.25) {
         const heroP = Math.min(1, Math.max(0, scrollY / vh))
         if (heroBgRef.current) {
-          const scale = 1 + heroP * 0.11
           const shiftY = heroP * 42
-          heroBgRef.current.style.transform = `translate3d(0, ${shiftY.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`
+          heroBgRef.current.style.transform = `translate3d(0, ${shiftY.toFixed(1)}px, 0)`
         }
         if (heroTextRef.current) {
           const liftY = -heroP * 36
@@ -253,18 +253,40 @@ export function LandingPage() {
           data-tone="dark"
           aria-labelledby="hero-h"
         >
-          <picture className="hero__bg">
-            <source media="(max-width: 1023px)" srcSet="/brand/aeropia-hero-mobile.jpg" />
-            <img
-              ref={heroBgRef}
-              src="/brand/aeropia-hero.jpg"
-              width={1920}
-              height={1072}
-              alt="Guarda-chuva drone autônomo Aeropia pairando na chuva urbana em Porto Alegre"
+          {!videoFailed ? (
+            <video
+              ref={(el) => {
+                heroBgRef.current = el
+              }}
+              className="hero__bg lp-hero-video"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              poster="/brand/aeropia-hero.jpg"
+              aria-hidden="true"
               style={{ ['--ly-pos' as string]: '68% 48%', ['--ly-pos-phone' as string]: '50% 45%' }}
-              fetchPriority="high"
-            />
-          </picture>
+              onError={() => setVideoFailed(true)}
+            >
+              <source src="/brand/fundo-hero.mp4" type="video/mp4" />
+            </video>
+          ) : (
+            <picture className="hero__bg">
+              <source media="(max-width: 1023px)" srcSet="/brand/aeropia-hero-mobile.jpg" />
+              <img
+                ref={(el) => {
+                  heroBgRef.current = el
+                }}
+                src="/brand/aeropia-hero.jpg"
+                width={1920}
+                height={1072}
+                alt="Guarda-chuva drone autônomo Aeropia pairando na chuva urbana em Porto Alegre"
+                style={{ ['--ly-pos' as string]: '68% 48%', ['--ly-pos-phone' as string]: '50% 45%' }}
+                fetchPriority="high"
+              />
+            </picture>
+          )}
 
           <HeroRainBackground />
 
