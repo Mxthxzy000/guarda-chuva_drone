@@ -59,84 +59,89 @@ export function LandingPage() {
   const [activeSection, setActiveSection] = useState<string>('experiencia')
   const progressBarRef = useRef<HTMLDivElement | null>(null)
   const heroBgRef = useRef<HTMLImageElement | null>(null)
-  const showcaseImgRef = useRef<HTMLImageElement | null>(null)
-  const showcaseSecRef = useRef<HTMLElement | null>(null)
+  const heroTextRef = useRef<HTMLDivElement | null>(null)
 
   const primaryHref = user ? '/dashboard' : '/cadastro'
   const secondaryHref = user ? '/estacoes' : '/login'
   const secondaryLabel = user ? 'Ver estações' : 'Entrar no sistema'
 
   useEffect(() => {
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    // 1. Destaque da seção ativa na navbar e brilho sutil de seção ativa
+    const sectionEls = Array.from(
+      document.querySelectorAll<HTMLElement>('main#top > section[id], footer#contato')
+    )
 
-    // 1. Destaque da seção ativa na navbar
-    const navTargets = ['experiencia', 'sistema', 'estacoes']
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => Boolean(el))
-
-    const navObserver = new IntersectionObserver(
+    const sectionObserver = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
+          entry.target.classList.toggle('lp-sec-active', entry.isIntersecting)
+          if (entry.isIntersecting && ['experiencia', 'sistema', 'estacoes'].includes(entry.target.id)) {
             setActiveSection(entry.target.id)
           }
         }
       },
-      { threshold: 0.4 }
+      { threshold: 0.35 }
     )
-    navTargets.forEach((el) => navObserver.observe(el))
+    sectionEls.forEach((el) => sectionObserver.observe(el))
 
-    // 2. Animações de revelação ao rolar a página (IntersectionObserver)
+    // 2. Revelação fluida ao rolar para baixo (funciona mesmo quando o Windows desativa efeitos visuais)
     const revealEls = Array.from(document.querySelectorAll<HTMLElement>('[data-lp-reveal]'))
-    let revealObserver: IntersectionObserver | null = null
-
-    if (reducedMotion) {
-      revealEls.forEach((el) => el.classList.add('is-visible'))
-    } else {
-      document.documentElement.classList.add('lp-anim-ready')
-      revealObserver = new IntersectionObserver(
-        (entries, obs) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible')
-              obs.unobserve(entry.target)
-            }
+    document.documentElement.classList.add('lp-anim-ready')
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible')
+          } else if (entry.boundingClientRect.top > window.innerHeight * 0.95) {
+            entry.target.classList.remove('is-visible')
           }
-        },
-        { threshold: 0.14, rootMargin: '0px 0px -48px 0px' }
-      )
-      revealEls.forEach((el) => revealObserver?.observe(el))
-    }
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -36px 0px' }
+    )
+    revealEls.forEach((el) => revealObserver.observe(el))
 
-    // 3. Barra de progresso de scroll + paralaxe suave no hero e na foto principal
+    // 3. Progresso de leitura + paralaxe contínua no Hero e em todas as fotos de seção
+    const parallaxImgs = Array.from(document.querySelectorAll<HTMLImageElement>('[data-lp-parallax]'))
     let rafId = 0
+
     const updateScrollMotion = () => {
       rafId = 0
       const scrollY = window.scrollY
-      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+      const vh = Math.max(1, window.innerHeight)
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - vh)
       const pageProgress = Math.min(1, Math.max(0, scrollY / maxScroll))
 
       if (progressBarRef.current) {
         progressBarRef.current.style.transform = `scaleX(${pageProgress.toFixed(4)})`
       }
 
-      if (reducedMotion) return
-
-      if (heroBgRef.current && scrollY <= window.innerHeight * 1.2) {
-        const heroP = Math.min(1, Math.max(0, scrollY / Math.max(1, window.innerHeight)))
-        const scale = 1 + heroP * 0.08
-        const shiftY = heroP * 28
-        heroBgRef.current.style.transform = `translate3d(0, ${shiftY.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`
+      // Profundidade cinematográfica no Hero ao rolar para baixo
+      if (scrollY <= vh * 1.25) {
+        const heroP = Math.min(1, Math.max(0, scrollY / vh))
+        if (heroBgRef.current) {
+          const scale = 1 + heroP * 0.11
+          const shiftY = heroP * 42
+          heroBgRef.current.style.transform = `translate3d(0, ${shiftY.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`
+        }
+        if (heroTextRef.current) {
+          const liftY = -heroP * 36
+          const opacity = Math.max(0.15, 1 - heroP * 0.85)
+          heroTextRef.current.style.transform = `translate3d(0, ${liftY.toFixed(1)}px, 0)`
+          heroTextRef.current.style.opacity = opacity.toFixed(3)
+        }
       }
 
-      if (showcaseSecRef.current && showcaseImgRef.current) {
-        const rect = showcaseSecRef.current.getBoundingClientRect()
-        const vh = window.innerHeight || 900
-        if (rect.bottom > 0 && rect.top < vh) {
-          const p = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height)))
-          const scale = 1.07 - p * 0.07
-          showcaseImgRef.current.style.transform = `scale(${scale.toFixed(4)})`
-        }
+      // Movimento contínuo de escala e deslocamento nas fotos de cada seção
+      for (const img of parallaxImgs) {
+        const box = img.parentElement
+        if (!box) continue
+        const rect = box.getBoundingClientRect()
+        if (rect.bottom < -40 || rect.top > vh + 40) continue
+        const p = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height)))
+        const offset = (p - 0.5) * -28
+        const scale = 1.09 - p * 0.05
+        img.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`
       }
     }
 
@@ -151,8 +156,8 @@ export function LandingPage() {
     window.addEventListener('resize', onScroll, { passive: true })
 
     return () => {
-      navObserver.disconnect()
-      revealObserver?.disconnect()
+      sectionObserver.disconnect()
+      revealObserver.disconnect()
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
       if (rafId) window.cancelAnimationFrame(rafId)
@@ -261,7 +266,7 @@ export function LandingPage() {
 
           <div className="wrap">
             <div className="hero-text">
-              <div className="hero__text">
+              <div ref={heroTextRef} className="hero__text lp-hero-motion">
                 <h1 id="hero-h">Guarda-chuva drone autônomo</h1>
                 <p className="hero__lead">
                   O Aeropia voa de 40 a 80 cm acima de você em Porto Alegre. Proteção autônoma
@@ -281,30 +286,29 @@ export function LandingPage() {
         </section>
 
         {/* Tela 2: Visual do produto em uso real + momento dealt liquid-type */}
-        <section ref={showcaseSecRef} className="section" id="experiencia" aria-labelledby="exp-h">
+        <section className="section lp-scroll-sec" id="experiencia" aria-labelledby="exp-h">
           <div className="wrap">
             <div
-              className="section-head section-head--split lp-reveal lp-reveal--up"
-              data-lp-reveal=""
+              className="section-head section-head--split"
               data-moment="liquid-type"
               data-moment-opts='{"strength": 0.9}'
             >
               <div>
-                <h2 id="exp-h">
+                <h2 id="exp-h" className="lp-reveal lp-reveal--title" data-lp-reveal="">
                   Aeropia sem mãos. <span className="muted">Trajeto livre.</span>
                 </h2>
               </div>
-              <p>
+              <p className="lp-reveal lp-reveal--up lp-delay-2" data-lp-reveal="">
                 Carregue sacolas ou use o celular na chuva enquanto o drone acompanha você.
               </p>
             </div>
 
             <div
-              className="fill lp-photo-box lp-showcase-frame lp-reveal lp-reveal--scale lp-delay-1"
+              className="fill lp-photo-box lp-showcase-frame lp-reveal lp-reveal--curtain lp-delay-2"
               data-lp-reveal=""
             >
               <img
-                ref={showcaseImgRef}
+                data-lp-parallax=""
                 src="/brand/aeropia-em-uso.jpg"
                 width={1376}
                 height={768}
@@ -317,11 +321,15 @@ export function LandingPage() {
         </section>
 
         {/* Tela 3: Sistema em 3 passos (texto à esquerda) + UI interativa (visual à direita) */}
-        <section className="section ground-surface" id="sistema" aria-labelledby="sys-h">
+        <section className="section ground-surface lp-scroll-sec" id="sistema" aria-labelledby="sys-h">
           <div className="wrap">
-            <div className="section-head lp-reveal lp-reveal--up" data-lp-reveal="">
-              <h2 id="sys-h">Sistema Aeropia em 3 passos</h2>
-              <p>Chame pelo site, acompanhe a chegada e caminhe protegido.</p>
+            <div className="section-head">
+              <h2 id="sys-h" className="lp-reveal lp-reveal--title" data-lp-reveal="">
+                Sistema Aeropia em 3 passos
+              </h2>
+              <p className="lp-reveal lp-reveal--up lp-delay-1" data-lp-reveal="">
+                Chame pelo site, acompanhe a chegada e caminhe protegido.
+              </p>
             </div>
 
             <div className="grid grid--middle">
@@ -368,11 +376,15 @@ export function LandingPage() {
         </section>
 
         {/* Tela 4: Sensores (texto à esquerda, foto macro à direita) */}
-        <section className="section" id="sensores" aria-labelledby="sens-h">
+        <section className="section lp-scroll-sec" id="sensores" aria-labelledby="sens-h">
           <div className="wrap">
-            <div className="section-head lp-reveal lp-reveal--up" data-lp-reveal="">
-              <h2 id="sens-h">Sensores do drone para chuva e vento</h2>
-              <p>Leitura em tempo real com suspensão automática acima de 30° de inclinação.</p>
+            <div className="section-head">
+              <h2 id="sens-h" className="lp-reveal lp-reveal--title" data-lp-reveal="">
+                Sensores do drone para chuva e vento
+              </h2>
+              <p className="lp-reveal lp-reveal--up lp-delay-1" data-lp-reveal="">
+                Leitura em tempo real com suspensão automática acima de 30° de inclinação.
+              </p>
             </div>
 
             <div className="grid grid--middle">
@@ -381,7 +393,7 @@ export function LandingPage() {
                   {HARDWARE_SPECS.map((spec, index) => (
                     <li
                       key={spec.name}
-                      className={`lp-reveal lp-reveal--up lp-delay-${Math.min(4, index + 1)}`}
+                      className={`lp-reveal lp-reveal--left lp-delay-${Math.min(4, index + 1)}`}
                       data-lp-reveal=""
                     >
                       <span className="rows__name">{spec.name}</span>
@@ -398,10 +410,11 @@ export function LandingPage() {
               </div>
 
               <div
-                className="span-6 start-7 lp-photo-box lp-split-photo lp-reveal lp-reveal--scale lp-delay-2"
+                className="span-6 start-7 lp-photo-box lp-split-photo lp-reveal lp-reveal--curtain lp-delay-2"
                 data-lp-reveal=""
               >
                 <img
+                  data-lp-parallax=""
                   src="/brand/aeropia-sensores.jpg"
                   width={1376}
                   height={768}
@@ -415,11 +428,15 @@ export function LandingPage() {
         </section>
 
         {/* Tela 5: Estações em Porto Alegre (texto à esquerda, foto à direita) */}
-        <section className="section ground-surface" id="estacoes" aria-labelledby="est-h">
+        <section className="section ground-surface lp-scroll-sec" id="estacoes" aria-labelledby="est-h">
           <div className="wrap">
-            <div className="section-head lp-reveal lp-reveal--up" data-lp-reveal="">
-              <h2 id="est-h">Estações do Aeropia em Porto Alegre</h2>
-              <p>Alugue por uso nos pontos de recarga ou adquira sua unidade pessoal.</p>
+            <div className="section-head">
+              <h2 id="est-h" className="lp-reveal lp-reveal--title" data-lp-reveal="">
+                Estações do Aeropia em Porto Alegre
+              </h2>
+              <p className="lp-reveal lp-reveal--up lp-delay-1" data-lp-reveal="">
+                Alugue por uso nos pontos de recarga ou adquira sua unidade pessoal.
+              </p>
             </div>
 
             <div className="grid grid--middle">
@@ -428,7 +445,7 @@ export function LandingPage() {
                   {STATIONS.map((station, index) => (
                     <li
                       key={station.name}
-                      className={`lp-reveal lp-reveal--up lp-delay-${index + 1}`}
+                      className={`lp-reveal lp-reveal--left lp-delay-${index + 1}`}
                       data-lp-reveal=""
                     >
                       <span className="rows__name">{station.name}</span>
@@ -437,16 +454,19 @@ export function LandingPage() {
                   ))}
                 </ul>
 
-                <div
-                  className="lp-offers-grid lp-reveal lp-reveal--up lp-delay-3"
-                  data-lp-reveal=""
-                >
-                  <div className="card lp-offer-card">
+                <div className="lp-offers-grid">
+                  <div
+                    className="card lp-offer-card lp-reveal lp-reveal--up lp-delay-3"
+                    data-lp-reveal=""
+                  >
                     <h3>Aluguel Aeropia</h3>
                     <span className="lp-offer-price">Por trajeto</span>
                     <p className="lp-offer-desc">Retire e devolva em qualquer estação ativa.</p>
                   </div>
-                  <div className="card lp-offer-card">
+                  <div
+                    className="card lp-offer-card lp-reveal lp-reveal--up lp-delay-4"
+                    data-lp-reveal=""
+                  >
                     <h3>Unidade Aeropia</h3>
                     <span className="lp-offer-price">R$ 3.240</span>
                     <p className="lp-offer-desc">Lote piloto com 80% de ROI projetado.</p>
@@ -458,10 +478,11 @@ export function LandingPage() {
               </div>
 
               <div
-                className="span-6 lp-photo-box lp-split-photo lp-reveal lp-reveal--scale lp-delay-2"
+                className="span-6 lp-photo-box lp-split-photo lp-reveal lp-reveal--curtain lp-delay-2"
                 data-lp-reveal=""
               >
                 <img
+                  data-lp-parallax=""
                   src="/brand/aeropia-estacao.jpg"
                   width={1376}
                   height={768}
@@ -476,14 +497,18 @@ export function LandingPage() {
       </main>
 
       {/* Tela 6: Encerramento comercial e rodapé */}
-      <footer className="footer closing footer--dark" id="contato" aria-labelledby="close-h">
+      <footer className="footer closing footer--dark lp-scroll-sec" id="contato" aria-labelledby="close-h">
         <div className="wrap">
-          <div className="closing__cta close--type lp-reveal lp-reveal--up" data-lp-reveal="">
+          <div className="closing__cta close--type">
             <div className="section-head">
-              <h2 id="close-h">Mobilidade urbana acima de você com Aeropia</h2>
-              <p>Conheça. Experimente. Movimente-se.</p>
+              <h2 id="close-h" className="lp-reveal lp-reveal--title" data-lp-reveal="">
+                Mobilidade urbana acima de você com Aeropia
+              </h2>
+              <p className="lp-reveal lp-reveal--up lp-delay-1" data-lp-reveal="">
+                Conheça. Experimente. Movimente-se.
+              </p>
             </div>
-            <div className="btn-row">
+            <div className="btn-row lp-reveal lp-reveal--up lp-delay-2" data-lp-reveal="">
               <Link className="btn btn--primary" to={primaryHref}>
                 Solicitar cobertura
               </Link>
@@ -493,7 +518,7 @@ export function LandingPage() {
             </div>
           </div>
 
-          <div className="closing__links">
+          <div className="closing__links lp-reveal lp-reveal--up lp-delay-2" data-lp-reveal="">
             <div className="grid">
               <div className="span-6 stack-4">
                 <span className="lp-footer-wordmark">

@@ -404,14 +404,15 @@ body:has(main#top) .skip-link:focus {
     margin-bottom: 20px;
   }
 
-  #sensores .rows > li,
-  #estacoes .rows > li {
+  #sensores .rows>li,
+  #estacoes .rows>li {
     padding-block: 10px;
   }
 }
 
 /* Mobile (< 640px): cada seção dentro de 1 tela (<= 844px) e alinhada na margem esquerda */
 @media (max-width: 639px) {
+
   #sistema,
   #sensores,
   #estacoes {
@@ -424,7 +425,7 @@ body:has(main#top) .skip-link:focus {
     padding-bottom: 32px;
   }
 
-  #contato > .wrap {
+  #contato>.wrap {
     row-gap: 24px;
   }
 
@@ -455,8 +456,8 @@ body:has(main#top) .skip-link:focus {
     font-size: 16px;
   }
 
-  #sensores .rows > li,
-  #estacoes .rows > li {
+  #sensores .rows>li,
+  #estacoes .rows>li {
     padding-block: 7px;
   }
 
@@ -483,23 +484,9 @@ body:has(main#top) .skip-link:focus {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .lp-photo-box img,
-  .lp-step-badge,
-  .lp-reveal,
-  .lp-scroll-progress {
-    transition: none;
-    animation: none;
-  }
-
-  .lp-reveal {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
-
 /* ============================================================================
-   Animações de Scroll (Progresso, Revelação em Cascata e Movimento Dinâmico)
+   Animações de Scroll (Progresso, Revelação em Cascata, Cortina e Paralaxe)
+   Sobrescreve o reset de .001ms do system.css em máquinas Windows com MinAnimate=0
    ============================================================================ */
 .lp-scroll-progress {
   position: absolute;
@@ -514,57 +501,96 @@ body:has(main#top) .skip-link:focus {
   will-change: transform;
 }
 
-.hero--photo > picture.hero__bg > img {
-  will-change: transform;
+.hero--photo > picture.hero__bg > img,
+.lp-hero-motion,
+[data-lp-parallax] {
+  will-change: transform, opacity;
 }
 
-.lp-showcase-frame > img {
-  will-change: transform;
+/* Brilho ambiente azul elétrico na borda superior das seções quando entram em foco */
+.lp-scroll-sec {
+  position: relative;
+}
+
+.lp-scroll-sec.ground-surface::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(15, 145, 254, 0.55) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transform: scaleX(0.35);
+  transition-property: opacity, transform;
+  transition-duration: 800ms, 900ms !important;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.lp-scroll-sec.ground-surface.lp-sec-active::before {
+  opacity: 1;
+  transform: scaleX(1);
 }
 
 html.lp-anim-ready .lp-reveal {
   opacity: 0;
-  transition:
-    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 760ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
+  transition-property: opacity, transform, filter, clip-path;
+  transition-duration: 780ms, 860ms, 760ms, 920ms !important;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform, filter, clip-path;
+}
+
+/* Títulos entram subindo com transição suave de foco (blur -> nítido) */
+html.lp-anim-ready .lp-reveal--title {
+  transform: translate3d(0, 40px, 0);
+  filter: blur(6px);
 }
 
 html.lp-anim-ready .lp-reveal--up {
-  transform: translate3d(0, 32px, 0);
+  transform: translate3d(0, 34px, 0);
 }
 
 html.lp-anim-ready .lp-reveal--left {
-  transform: translate3d(-28px, 0, 0);
+  transform: translate3d(-34px, 0, 0);
 }
 
 html.lp-anim-ready .lp-reveal--right {
-  transform: translate3d(28px, 0, 0);
+  transform: translate3d(34px, 0, 0);
 }
 
-html.lp-anim-ready .lp-reveal--scale {
-  transform: translate3d(0, 24px, 0) scale(0.96);
+/* Fotos entram com efeito de cortina + escala */
+html.lp-anim-ready .lp-reveal--curtain {
+  transform: translate3d(0, 30px, 0) scale(0.96);
+  clip-path: inset(14% 0 0 0 round var(--r-lg));
 }
 
 html.lp-anim-ready .lp-reveal.is-visible {
   opacity: 1;
   transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+  clip-path: inset(0 0 0 0 round var(--r-lg));
 }
 
 html.lp-anim-ready .lp-delay-1 {
-  transition-delay: 70ms;
+  transition-delay: 80ms;
 }
 
 html.lp-anim-ready .lp-delay-2 {
-  transition-delay: 140ms;
+  transition-delay: 160ms;
 }
 
 html.lp-anim-ready .lp-delay-3 {
-  transition-delay: 210ms;
+  transition-delay: 240ms;
 }
 
 html.lp-anim-ready .lp-delay-4 {
-  transition-delay: 280ms;
+  transition-delay: 320ms;
 }
 
 /* Pulso vivo no indicador de telemetria */
@@ -572,27 +598,36 @@ html.lp-anim-ready .lp-delay-4 {
   0% {
     box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.55);
   }
+
   70% {
     box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
   }
+
   100% {
     box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
   }
 }
 
-.lp-ui-dot {
-  animation: lp-dot-pulse 2.4s ease-out infinite;
+body:has(main#top) .lp-ui-dot {
+  animation-name: lp-dot-pulse;
+  animation-duration: 2.4s !important;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite !important;
 }
 
-.lp-ui-dot.is-alert {
-  animation: none;
+body:has(main#top) .lp-ui-dot.is-alert {
+  animation: none !important;
 }
 
 /* Transição suave na barra do gráfico SVG de telemetria */
-.lp-ui-svg-wrap rect {
-  transition: width 360ms cubic-bezier(0.22, 1, 0.36, 1), fill 240ms ease;
+body:has(main#top) .lp-ui-svg-wrap rect {
+  transition-property: width, fill;
+  transition-duration: 360ms, 240ms !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1), ease;
 }
 
-.lp-ui-svg-wrap path {
-  transition: d 360ms cubic-bezier(0.22, 1, 0.36, 1), stroke 240ms ease;
+body:has(main#top) .lp-ui-svg-wrap path {
+  transition-property: d, stroke;
+  transition-duration: 360ms, 240ms !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1), ease;
 }
